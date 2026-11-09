@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RenameKu – Rename Dokumen Massal</title>
+<style>
+:root{--bg:#f6f8fd;--cd:#fff;--tx:#12161f;--mu:#4b5666;--bd:#dfe5f1;--ac:#1d4ed8;--as:#e6eeff;--ok:#0a6b3d;--os:#d9f6e5;--wr:#7a4e00;--ws:#fff0c2;--er:#a82217;--es:#fde2df;--hi:#ffd54a;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#10141c;--cd:#181e29;--tx:#f1f4fa;--mu:#aab4c5;--bd:#2c3546;--ac:#7aa2ff;--as:#1f2a45;--ok:#6fe3a2;--os:#12362a;--wr:#ffd77a;--ws:#3b2f10;--er:#ff9d94;--es:#41201d;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#10141c;--cd:#181e29;--tx:#f1f4fa;--mu:#aab4c5;--bd:#2c3546;--ac:#7aa2ff;--as:#1f2a45;--ok:#6fe3a2;--os:#12362a;--wr:#ffd77a;--ws:#3b2f10;--er:#ff9d94;--es:#41201d;color-scheme:dark}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.app{display:flex;min-height:100%}
+aside{width:236px;flex:none;background:var(--cd);border-right:1px solid var(--bd);padding:18px 12px;position:sticky;top:0;height:100vh;overflow:auto}
+.logo{font:700 22px Georgia,serif;padding:2px 10px 14px}.logo b{color:var(--ac)}
+aside h6{margin:16px 10px 6px;font-size:12px;color:var(--mu);font-weight:600;letter-spacing:.04em}
+.nav{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;color:var(--tx);font:inherit;padding:10px 12px;border-radius:10px;cursor:pointer;text-align:left}
+.nav:hover{background:var(--as)}.nav.on{background:var(--ac);color:#fff;font-weight:600}
+.nav i{margin-left:auto;font-style:normal;font-size:12px;background:var(--as);color:var(--ac);border-radius:99px;padding:0 8px}.nav.on i{background:#fff3;color:#fff}
+main{flex:1;min-width:0;padding:20px 24px 80px;max-width:1100px}
+h1{font:700 26px Georgia,serif;margin:0 0 4px}h2{font-size:17px;margin:22px 0 10px}.sub{color:var(--mu);margin:0 0 16px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.pill{display:inline-block;border-radius:99px;padding:3px 10px;font-size:12.5px;font-weight:600;background:var(--as);color:var(--ac)}
+.pill.ok{background:var(--os);color:var(--ok)}.pill.wr{background:var(--ws);color:var(--wr)}.pill.er{background:var(--es);color:var(--er)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:14px 16px}
+.stat small{color:var(--mu);display:block}.stat b{font-size:24px;display:block;margin-top:2px}.stat.hl{background:var(--hi);border-color:transparent;color:#1a1500}.stat.hl small{color:#3d3200}
+.drop{border:2px dashed var(--ac);background:var(--as);border-radius:14px;padding:22px;text-align:center;cursor:pointer}
+.drop.over{background:var(--hi);color:#1a1500}.drop b{display:block;font-size:16px}
+button,.btn{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--bd);background:var(--cd);color:var(--tx);padding:8px 14px}
+button.p{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}.dark button.p{color:#0b1020}
+:root[data-theme=dark] button.p{color:#0b1020}@media(prefers-color-scheme:dark){:root:not([data-theme=light]) button.p{color:#0b1020}}
+button.x{color:var(--er);padding:4px 10px}
+input,select{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:9px;padding:8px 10px;width:100%;min-width:0}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
+label{display:block;font-size:12.5px;color:var(--mu);font-weight:600;margin-bottom:3px}
+.items{display:grid;gap:12px;margin-top:14px}
+.item .hd{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px;word-break:break-all}
+.f{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.amt{font:700 20px system-ui;background:var(--hi);color:#1a1500;border-radius:9px;padding:6px 10px;display:inline-block}
+.nn{margin-top:10px;display:flex;gap:8px;align-items:center;background:var(--as);border-radius:10px;padding:8px 10px}
+.nn span{flex:1;user-select:all;-webkit-user-select:all;word-break:break-all;font-weight:600}
+.bar{position:sticky;bottom:0;background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:10px 12px;margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.bar select{width:auto}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:560px}th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--bd);user-select:text}th{font-size:12.5px;color:var(--mu)}
+.modal{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;padding:14px;z-index:20}
+.modal .card{max-width:640px;width:100%;max-height:92vh;overflow:auto}.modal img{max-width:100%;border-radius:10px}
+.note{font-size:13px;color:var(--mu)}.busy{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:30}
+@media(max-width:800px){.app{display:block}aside{width:auto;height:auto;position:static;display:flex;gap:4px;overflow-x:auto;padding:8px;border:0;border-bottom:1px solid var(--bd)}
+.logo,aside h6{display:none}.nav{width:auto;white-space:nowrap;padding:8px 12px}main{padding:14px 12px 80px}}
+</style></head><body>
+<div class="app"><aside id="side"></aside><main id="main"></main></div>
+<div id="ov"></div>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script>
+const T={invoice:'INVOICE',sow:'SOW',spk:'SPK',proof:'PROOF PAYMENT'};
+const TT={invoice:'Invoice',sow:'SOW',spk:'SPK',proof:'Proof Payment'};
+const S={view:'dash',items:[],people:[],busy:'',sync:'Lokal'};
+let db=null,dl=null;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const rp=n=>n?'Rp '+Number(n).toLocaleString('id-ID'):'—';
+const key=s=>String(s||'').trim().toUpperCase().replace(/[\s\/\\]+/g,'_');
+const invName=s=>String(s||'').trim().replace(/[\/\\]/g,'_').replace(/[:*?"<>|]/g,'').replace(/\s+/g,' ');
+const clean=s=>String(s||'').replace(/[\/\\:*?"<>|]/g,'').replace(/\s+/g,' ').trim();
+const ext=n=>(String(n).match(/\.[a-z0-9]+$/i)||['.pdf'])[0].toLowerCase();
+const byId=(a,id)=>a.find(x=>x.id===id);
+const person=it=>{let p=byId(S.people,it.pid);if(!p&&it.inv){const g=S.items.find(o=>key(o.inv)===key(it.inv)&&o.pid&&byId(S.people,o.pid));if(g)p=byId(S.people,g.pid)}return p};
+const newName=it=>{const p=person(it);if(!p||!p.name||!it.inv)return'';return clean(p.name)+' '+invName(it.inv)+' '+T[it.type]+(it.type==='proof'?'.pdf':ext(it.fname))};
+const ready=it=>!!newName(it);
+function parseAmt(s){s=String(s).replace(/[^\d.,]/g,'');if(!s)return 0;const d=s.lastIndexOf('.'),c=s.lastIndexOf(',');
+ if(d>-1&&c>-1){const dec=Math.max(d,c);s=s.slice(0,dec).replace(/[.,]/g,'')+'.'+s.slice(dec+1)}
+ else if(d>-1||c>-1){const sp=d>-1?'.':',',parts=s.split(sp);s=(parts.length>2||parts[parts.length-1].length===3)?parts.join(''):parts[0]+'.'+parts[1]}
+ return Math.round(parseFloat(s))||0}
+function findAmt(t){let best=0,m,re=/(grand\s*total|total\s*tagihan|total\s*invoice|amount\s*due|total|jumlah|tagihan|subtotal)[^\d\n]{0,30}(?:rp\.?|idr)?\s*([\d][\d.,]*)/gi;
+ while((m=re.exec(t))){const v=parseAmt(m[2]);if(v>best)best=v}
+ if(!best){re=/(?:rp\.?|idr)\s*([\d][\d.,]*)/gi;while((m=re.exec(t))){const v=parseAmt(m[1]);if(v>best)best=v}}return best}
+function findInv(t){const m=t.match(/(?:no\.?\s*invoice|invoice\s*(?:no\.?|number|#|nomor)|nomor\s*invoice|invoice)\s*[:#\-]?\s*([A-Z0-9][A-Z0-9\/\-._]{2,})/i);return m?m[1].replace(/[.\-_\/]+$/,''):''}
+async function pdfText(f){try{const d=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;let t='';for(let i=1;i<=Math.min(d.numPages,4);i++){const c=await(await d.getPage(i)).getTextContent();t+=c.items.map(x=>x.str).join(' ')+' '}return t}catch(e){return''}}
+function analyze(it,t){const U=t.toUpperCase();it.txt=!!t.trim();
+ if(it.type!=='invoice'){const k=S.items.filter(o=>o.type==='invoice'&&o.inv).find(o=>U.includes(o.inv.toUpperCase())||U.includes(o.inv.toUpperCase().replace(/_/g,'/'))||it.fname.toUpperCase().includes(o.inv.toUpperCase().replace(/\//g,'_')));if(k)it.inv=k.inv}
+ if(!it.inv)it.inv=findInv(t);
+ if(it.type==='invoice'){it.amount=findAmt(t);it.amtAuto=!!it.amount}
+ let m=t.match(/NIK[^\d]{0,12}(\d{16})/i)||t.match(/\b(\d{16})\b/);it.nikTxt=m?m[1]:'';
+ m=t.match(/\b(\d{2}\.\d{3}\.\d{3}\.\d-\d{3}\.\d{3})\b/)||t.match(/NPWP[^\d]{0,15}(\d[\d.\- ]{13,22}\d)/i);it.npwpTxt=m?m[1].replace(/\D/g,''):'';
+ const dg=t.replace(/\D/g,'');const p=S.people.find(p=>(p.nik&&dg.includes(p.nik))||(p.npwp&&dg.includes(p.npwp)));if(p)it.pid=p.id}
+function save(col,o){if(!db)return;const m=JSON.parse(JSON.stringify(o,(k,v)=>k==='file'||k==='img'?undefined:v));db.collection(col).doc(o.id).set(m).catch(()=>{})}
+function del(col,id){if(db)db.collection(col).doc(id).delete().catch(()=>{})}
+async function addFiles(type,files){files=[...files];S.busy='Membaca '+files.length+' file…';render();
+ for(const f of files){const it={id:uid(),type,fname:f.name,file:f,inv:'',amount:0,amtAuto:false,pid:'',nikTxt:'',npwpTxt:'',txt:false};
+  analyze(it,/pdf$/i.test(f.name)?await pdfText(f):'');S.items.push(it);save('docs',it)}S.busy='';render()}
+async function addKtp(f){S.busy='Memuat KTP…';render();let img='';
+ if(/pdf$/i.test(f.name)){try{const d=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise,p=await d.getPage(1),v=p.getViewport({scale:1.6}),c=document.createElement('canvas');c.width=v.width;c.height=v.height;await p.render({canvasContext:c.getContext('2d'),viewport:v}).promise;img=c.toDataURL('image/jpeg',.85)}catch(e){}}
+ else img=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(f)});
+ const p={id:uid(),name:'',nik:'',npwp:'',img};S.people.push(p);save('people',p);S.busy='';render()}
+function copy(t){const ok=()=>flash('Disalin');if(navigator.clipboard)navigator.clipboard.writeText(t).then(ok,()=>fb());else fb();
+ function fb(){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){flash('Blok teks lalu Ctrl+C')}a.remove()}}
+function flash(m){S.busy=m;render();setTimeout(()=>{S.busy='';render()},1200)}
+async function mergePdf(files){const L=PDFLib,out=await L.PDFDocument.create();
+ for(const f of files){const b=await f.arrayBuffer(),n=f.name.toLowerCase();
+  if(/\.pdf$/.test(n)){const s=await L.PDFDocument.load(b,{ignoreEncryption:true});(await out.copyPages(s,s.getPageIndices())).forEach(p=>out.addPage(p))}
+  else{const im=/\.png$/.test(n)?await out.embedPng(b):await out.embedJpg(b);const p=out.addPage([im.width,im.height]);p.drawImage(im,{x:0,y:0,width:im.width,height:im.height})}}
+ return new Blob([await out.save()],{type:'application/pdf'})}
+async function outputs(type){const L=[],its=S.items.filter(i=>i.type===type&&i.file&&ready(i));
+ if(type==='proof'){const g={};its.forEach(i=>(g[key(i.inv)+'|'+newName(i)]=g[key(i.inv)+'|'+newName(i)]||[]).push(i));
+  for(const k in g)L.push({name:newName(g[k][0]),blob:await mergePdf(g[k].map(i=>i.file)),n:g[k].length})}
+ else its.forEach(i=>L.push({name:newName(i),blob:i.file}));
+ const seen={};return L.map(o=>{const c=seen[o.name]=(seen[o.name]||0)+1;if(c>1)o.name=o.name.replace(/(\.\w+)$/,' ('+c+')$1');return o})}
+async function saveBlob(name,blob){if(dl){try{await dl.save({filename:name,data:blob});return}catch(e){if(e&&e.code==='declined')throw e}}
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove()}
+async function download(type,mode){S.busy='Menyiapkan file…';render();
+ try{const L=await outputs(type);if(!L.length){S.busy='';render();alert('Belum ada file yang siap. Pilih KTP dan isi nomor invoice dulu.');return}
+  const zip=mode==='zip'||(mode==='auto'&&L.length>20);
+  if(zip){const z=new JSZip();L.forEach(o=>z.file(o.name,o.blob));await saveBlob(TT[type].replace(' ','_')+'_rename.zip',await z.generateAsync({type:'blob'}))}
+  else for(const o of L)await saveBlob(o.name,o.blob);
+ }catch(e){if(!e||e.code!=='declined')alert('Gagal: '+(e&&e.message||e))}S.busy='';render()}
+function ktpView(id){const p=byId(S.people,id);if(!p)return;
+ $o(`<div class="modal" data-close><div class="card"><div class="top"><b>KTP – ${esc(p.name||'(nama belum diisi)')}</b><button data-close>Tutup</button></div>
+ <p class="note">Cocokkan nama &amp; nomor di bawah dengan gambar KTP.</p>
+ ${p.img?`<img src="${p.img}" alt="KTP">`:'<p class="pill wr">Gambar KTP hanya ada di perangkat pengunggah.</p>'}
+ <p><b>Nama:</b> ${esc(p.name)||'—'}<br><b>NIK:</b> ${esc(p.nik)||'—'}<br><b>NPWP:</b> ${esc(p.npwp)||'—'}</p></div></div>`)}
+const $o=h=>document.getElementById('ov').innerHTML=h;
+function groups(){const g={};S.items.forEach(i=>{if(!i.inv)return;const k=key(i.inv);const o=g[k]=g[k]||{inv:i.inv,name:'',amount:0,invoice:0,sow:0,spk:0,proof:0};o[i.type]++;if(i.type==='invoice'&&i.amount)o.amount=i.amount;const p=person(i);if(p&&p.name)o.name=p.name});return Object.values(g)}
+function dash(){const G=groups(),inv=G.filter(g=>g.invoice),tot=inv.reduce((a,g)=>a+g.amount,0),wp=inv.filter(g=>g.proof),np=wp.reduce((a,g)=>a+g.amount,0),c=t=>S.items.filter(i=>i.type===t),r=t=>c(t).filter(ready).length;
+ const ck=n=>n?'<span class="pill ok">✓</span>':'<span class="pill er">–</span>';
+ return `<div class="top"><div><h1>Dashboard</h1><p class="sub">Ringkasan semua dokumen. Data tersinkron untuk satu tim.</p></div><span class="pill ${db?'ok':'wr'}">${db?'Berbagi dengan tim aktif':'Mode lokal'}</span></div>
+ <div class="grid"><div class="card stat hl"><small>Total nominal invoice</small><b>${rp(tot)}</b></div>
+ <div class="card stat"><small>Invoice di-rename</small><b>${r('invoice')} / ${c('invoice').length}</b></div>
+ <div class="card stat"><small>SOW di-rename</small><b>${r('sow')} / ${c('sow').length}</b></div>
+ <div class="card stat"><small>SPK di-rename</small><b>${r('spk')} / ${c('spk').length}</b></div>
+ <div class="card stat"><small>Invoice sudah ada proof payment</small><b>${wp.length} / ${inv.length}</b></div>
+ <div class="card stat"><small>Nominal yang sudah dibayar (ada proof)</small><b>${rp(np)}</b></div></div>
+ <h2>Keterkaitan per nomor invoice</h2><div class="card tw"><table><tr><th>No Invoice</th><th>Nama KTP</th><th>Nominal</th><th>Invoice</th><th>SOW</th><th>SPK</th><th>Proof</th></tr>
+ ${G.map(g=>`<tr><td>${esc(invName(g.inv))}</td><td>${esc(g.name)||'<span class=note>belum ada KTP</span>'}</td><td><b>${rp(g.amount)}</b></td><td>${ck(g.invoice)}</td><td>${ck(g.sow)}</td><td>${ck(g.spk)}</td><td>${ck(g.proof)}</td></tr>`).join('')||'<tr><td colspan=7 class=note>Belum ada data. Mulai dengan unggah KTP, lalu Invoice.</td></tr>'}</table></div>`}
+function ktpPage(){return `<h1>KTP &amp; NPWP</h1><p class="sub">Daftar nama resmi. Semua rename memakai nama dari KTP di sini. Isi nama, NIK, NPWP sesuai gambar KTP.</p>
+ <label class="drop" id="dz-ktp"><b>Unggah KTP (gambar / PDF)</b><span class="note">Tarik file ke sini atau ketuk untuk memilih</span><input type="file" id="in-ktp" accept="image/*,.pdf" multiple hidden></label>
+ <div class="items">${S.people.map(p=>`<div class="card item"><div class="hd"><b>${esc(p.name||'KTP baru')}</b><span><button data-ktp="${p.id}">Lihat KTP</button> <button class="x" data-delp="${p.id}">Hapus</button></span></div>
+ <div class="f"><div><label>Nama di KTP</label><input data-p="name" data-id="${p.id}" value="${esc(p.name)}"></div>
+ <div><label>NIK (16 digit)</label><input data-p="nik" data-id="${p.id}" inputmode="numeric" value="${esc(p.nik)}"></div>
+ <div><label>NPWP</label><input data-p="npwp" data-id="${p.id}" inputmode="numeric" value="${esc(p.npwp)}"></div></div>
+ ${p.nik&&p.nik.length!==16?'<p class="pill er">NIK harus 16 digit</p>':''}</div>`).join('')}</div>`}
+function card(it){const p=person(it),nm=newName(it);let extra='';
+ if(it.type==='invoice')extra=`<div><label>Nominal</label><div class="amt">${rp(it.amount)}</div> <span class="pill ${it.amtAuto?'ok':'wr'}">${it.amtAuto?'terdeteksi':'cek manual'}</span><input data-f="amount" data-id="${it.id}" inputmode="numeric" value="${it.amount||''}" placeholder="Ketik nominal" style="margin-top:6px"></div>`;
+ if(it.type==='spk'){let b;if(!p)b='<span class="pill wr">Pilih KTP dulu</span>';else if(!it.nikTxt&&!it.npwpTxt)b='<span class="pill wr">NIK/NPWP tidak terbaca di SPK, cek manual</span>';
+  else{const okN=p.nik&&(p.nik===it.nikTxt||p.nik===it.npwpTxt),okP=p.npwp&&(p.npwp.replace(/\D/g,'')===it.npwpTxt||p.npwp.replace(/\D/g,'')===it.nikTxt);b=okN||okP?'<span class="pill ok">✓ NIK/NPWP SPK cocok dengan KTP</span>':'<span class="pill er">✗ Tidak cocok</span>'}
+  extra=`<div><label>Pemeriksaan SPK</label>${b}<div class="note">SPK: NIK ${esc(it.nikTxt)||'—'} · NPWP ${esc(it.npwpTxt)||'—'}<br>KTP: NIK ${esc(p&&p.nik)||'—'} · NPWP ${esc(p&&p.npwp)||'—'}</div></div>`}
+ const n=it.type==='proof'?S.items.filter(o=>o.type==='proof'&&it.inv&&key(o.inv)===key(it.inv)).length:0;
+ return `<div class="card item"><div class="hd"><span><b>${esc(it.fname)}</b>${it.file?'':' <span class="pill wr">file di perangkat lain</span>'}</span><button class="x" data-deli="${it.id}">Hapus</button></div>
+ <div class="f"><div><label>Nomor invoice</label><input data-f="inv" data-id="${it.id}" list="invs" value="${esc(it.inv)}" placeholder="mis. INV/2026/001"></div>
+ <div><label>Nama KTP</label><div style="display:flex;gap:6px"><select data-f="pid" data-id="${it.id}"><option value="">${p&&!it.pid?'(ikut invoice yang sama)':'— pilih KTP —'}</option>${S.people.map(q=>`<option value="${q.id}" ${q.id===it.pid?'selected':''}>${esc(q.name||'(tanpa nama)')}</option>`).join('')}</select>${p?`<button data-ktp="${p.id}">Lihat</button>`:''}</div></div>${extra}</div>
+ ${nm?`<div class="nn"><span>${esc(nm)}</span><button data-copy="${esc(nm)}">Salin</button></div>${n>1?`<p class="note">Ada ${n} proof payment dengan nomor invoice ini, akan digabung jadi 1 PDF.</p>`:''}`:'<p class="note">Lengkapi nomor invoice dan pilih KTP untuk melihat nama baru.</p>'}</div>`}
+function docPage(t){const L=S.items.filter(i=>i.type===t),rd=L.filter(ready).length;
+ return `<h1>${TT[t]}</h1><p class="sub">Format nama: <b>[Nama KTP] [No Invoice] ${T[t]}</b>. Tanda “/” pada nomor invoice otomatis jadi “_”.</p>
+ <label class="drop" id="dz-doc"><b>Unggah ${TT[t]} (bisa banyak sekaligus)</b><span class="note">Tarik file ke sini atau ketuk. ${t==='proof'?'PDF, JPG, PNG. Nomor invoice sama akan digabung.':'Nomor invoice dan data dibaca otomatis dari PDF.'}</span><input type="file" id="in-doc" multiple hidden accept="${t==='proof'?'.pdf,image/*':'.pdf,image/*,.doc,.docx'}"></label>
+ <div class="items">${L.map(card).join('')||'<p class="note">Belum ada file.</p>'}</div>
+ <datalist id="invs">${[...new Set(S.items.filter(i=>i.type==='invoice'&&i.inv).map(i=>i.inv))].map(v=>`<option value="${esc(v)}">`).join('')}</datalist>
+ <div class="bar"><b>${rd}/${L.length} siap</b><select id="mode"><option value="auto">Otomatis (ZIP bila lebih dari 20)</option><option value="pdf">Unduh langsung satu per satu</option><option value="zip">ZIP</option></select>
+ <button class="p" data-dl="${t}">Unduh hasil rename</button><button data-copyall="${t}">Salin semua nama</button></div>`}
+function render(){const nav=[['dash','Dashboard'],['h','Rename'],['invoice','Invoice'],['sow','SOW'],['spk','SPK'],['proof','Proof Payment'],['h','Data'],['ktp','KTP &amp; NPWP']];
+ $('#side').innerHTML=`<div class="logo">Rename<b>Ku</b></div>`+nav.map(([k,l])=>k==='h'?`<h6>${l.toUpperCase()}</h6>`:`<button class="nav ${S.view===k?'on':''}" data-v="${k}">${l}${T[k]?`<i>${S.items.filter(i=>i.type===k).length}</i>`:k==='ktp'?`<i>${S.people.length}</i>`:''}</button>`).join('');
+ const m=S.view==='dash'?dash():S.view==='ktp'?ktpPage():docPage(S.view);
+ const a=document.activeElement,keep=a&&a.id==='mode'?a.value:null;
+ $('#main').innerHTML=(S.busy?`<div class="busy pill ok">${esc(S.busy)}</div>`:'')+m;if(keep)$('#mode').value=keep}
+const $=s=>document.querySelector(s);
+document.addEventListener('click',e=>{const t=e.target.closest('[data-v],[data-ktp],[data-delp],[data-deli],[data-copy],[data-copyall],[data-dl],[data-close]');if(!t){return}
+ const d=t.dataset;
+ if(d.v!==undefined){S.view=d.v;render();scrollTo(0,0)}
+ else if(d.ktp)ktpView(d.ktp);
+ else if(d.close!==undefined){if(e.target===t||t.tagName==='BUTTON')$o('')}
+ else if(d.delp){S.people=S.people.filter(p=>p.id!==d.delp);S.items.forEach(i=>{if(i.pid===d.delp)i.pid=''});del('people',d.delp);render()}
+ else if(d.deli){S.items=S.items.filter(i=>i.id!==d.deli);del('docs',d.deli);render()}
+ else if(d.copy)copy(d.copy);
+ else if(d.copyall)copy([...new Set(S.items.filter(i=>i.type===d.copyall&&ready(i)).map(newName))].join('\n'));
+ else if(d.dl)download(d.dl,$('#mode').value)});
+document.addEventListener('change',e=>{const t=e.target,d=t.dataset;
+ if(t.id==='in-ktp'){[...t.files].forEach(addKtp);return}
+ if(t.id==='in-doc'){addFiles(S.view,t.files);return}
+ if(d.p){const p=byId(S.people,d.id);p[d.p]=d.p==='name'?t.value.trim():t.value.replace(/[^\d.\-\s]/g,'').trim();if(d.p==='nik')p.nik=p.nik.replace(/\D/g,'');save('people',p);render()}
+ else if(d.f){const it=byId(S.items,d.id);if(d.f==='amount'){it.amount=parseAmt(t.value);it.amtAuto=false}else it[d.f]=t.value.trim();save('docs',it);render()}});
+function dz(ev,over,fn){document.addEventListener(ev,e=>{const z=e.target.closest('.drop');if(!z)return;e.preventDefault();if(over)z.classList.add('over');if(fn)fn(e,z)})}
+dz('dragover',true);document.addEventListener('dragleave',e=>{const z=e.target.closest('.drop');if(z)z.classList.remove('over')});
+dz('drop',false,(e,z)=>{z.classList.remove('over');if(z.id==='dz-ktp')[...e.dataTransfer.files].forEach(addKtp);else addFiles(S.view,e.dataTransfer.files)});
+render();
+(async()=>{try{if(!window.claude)return;const u=await claude.use('user');dl=await claude.use('downloads');db=await claude.use('db');if(!db)return;
+ const rs=(snap,arr,col)=>{snap.docChanges().forEach(c=>{const o=c.doc.data(),id=c.doc.id,i=arr.findIndex(x=>x.id===id);
+  if(c.type==='removed'){if(i>-1)arr.splice(i,1)}else if(i>-1)Object.assign(arr[i],o,{id});else arr.push(Object.assign({id,file:null},o))});render()};
+ db.collection('people').onSnapshot(s=>rs(s,S.people),()=>{});db.collection('docs').onSnapshot(s=>rs(s,S.items),()=>{});render()}catch(e){}})();
+</script></body></html>
